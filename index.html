@@ -97,28 +97,6 @@
                     <div id="cycle-timeline" class="w-full flex rounded-full h-3 overflow-hidden"></div>
                     <div id="cycle-legend" class="text-xs mt-3 grid grid-cols-2 gap-x-4 gap-y-1"></div>
                 </section>
-
-                <!-- Настройки -->
-                <section class="card border rounded-2xl p-6">
-                    <h2 class="text-lg font-bold themed-text mb-4">Настройки цикла</h2>
-                    <div class="space-y-4">
-                        <div>
-                            <label for="startDate" class="block text-sm font-medium themed-text-muted">Дата начала последнего цикла</label>
-                            <input id="startDate" type="date" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
-                        </div>
-                        <div>
-                            <label for="cycleLength" class="block text-sm font-medium themed-text-muted">Длительность цикла (дней)</label>
-                            <input id="cycleLength" type="number" min="20" max="45" value="28" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
-                        </div>
-                        <div>
-                            <label for="periodLength" class="block text-sm font-medium themed-text-muted">Длительность менструации (дней)</label>
-                            <input id="periodLength" type="number" min="1" max="10" value="5" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
-                        </div>
-                    </div>
-                    <button id="saveSettingsBtn" class="mt-6 w-full py-2 px-4 rounded-md bg-black text-white font-semibold hover:bg-zinc-800 transition">
-                        <span class="text-gold-300">Сохранить</span>
-                    </button>
-                </section>
             </aside>
 
             <!-- Правая колонка -->
@@ -148,6 +126,28 @@
                     </div>
                 </section>
             </div>
+
+            <!-- Настройки -->
+            <section class="card border rounded-2xl p-6 col-span-full">
+                <h2 class="text-lg font-bold themed-text mb-4">Настройки цикла</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label for="startDate" class="block text-sm font-medium themed-text-muted">Дата начала последнего цикла</label>
+                        <input id="startDate" type="date" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
+                    </div>
+                    <div>
+                        <label for="cycleLength" class="block text-sm font-medium themed-text-muted">Длительность цикла (дней)</label>
+                        <input id="cycleLength" type="number" min="20" max="45" value="28" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
+                    </div>
+                    <div>
+                        <label for="periodLength" class="block text-sm font-medium themed-text-muted">Длительность менструации (дней)</label>
+                        <input id="periodLength" type="number" min="1" max="10" value="5" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
+                    </div>
+                </div>
+                <button id="saveSettingsBtn" class="mt-6 w-full py-2 px-4 rounded-md bg-black text-white font-semibold hover:bg-zinc-800 transition">
+                    <span class="text-gold-300">Сохранить</span>
+                </button>
+            </section>
         </main>
     </div>
 
