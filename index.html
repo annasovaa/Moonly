@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- Chosen Palette: Calm Neutrals -->
-<!-- Application Structure Plan: Я разработал структуру в виде информационной панели (dashboard) с двумя колонками, которая адаптируется под мобильные устройства. Левая колонка содержит панель управления (настройки цикла) и карточку с обзором текущего дня для быстрого доступа к самой важной информации. Правая колонка содержит интерактивный календарь для детального изучения и панель с подробной информацией о выбранной фазе. Такая структура разделяет быстрый обзор и глубокое исследование, что улучшает пользовательский опыт, так как пользователь может либо быстро получить нужную информацию, либо погрузиться в детали, не перегружая интерфейс. -->
-<!-- Visualization & Content Choices: 
+<!-- Выбранная палитра: Эзотерические, сочные, природные оттенки с золотом и чёрным. -->
+<!-- План структуры приложения: Я разработал структуру в виде информационной панели (dashboard) с двумя колонками, которая адаптируется под мобильные устройства. Левая колонка содержит панель управления (настройки цикла) и карточку с обзором текущего дня для быстрого доступа к самой важной информации. Правая колонка содержит интерактивный календарь для детального изучения и панель с подробной информацией о выбранной фазе. Такая структура разделяет быстрый обзор и глубокое исследование, что улучшает пользовательский опыт, так как пользователь может либо быстро получить нужную информацию, либо погрузиться в детали, не перегружая интерфейс. -->
+<!-- Визуализация и контент: 
 - Настройки цикла -> Цель: Ввод данных -> Метод: Стилизованная форма -> Взаимодействие: Ввод данных пользователем -> Обоснование: Стандартный и интуитивно понятный способ для ввода данных.
 - Обзор текущего дня -> Цель: Информирование -> Метод: Карточка с ключевой информацией (фаза, день цикла) -> Взаимодействие: Нет (только отображение) -> Обоснование: Предоставляет самую важную информацию на видном месте.
 - Временная шкала цикла -> Цель: Организация, Информирование -> Метод: Горизонтальная полоса, созданная с помощью HTML/CSS -> Взаимодействие: Нет -> Обоснование: Даёт наглядное представление о всём цикле и текущем положении в нём.
@@ -9,24 +9,23 @@
 - Детали фазы -> Цель: Информирование, Рекомендации -> Метод: Структурированный текст с иконками и заголовками -> Взаимодействие: Обновляется при клике на день -> Обоснование: Разделение большого текста на блоки значительно улучшает читаемость и восприятие информации.
 - Библиотеки/Методы: Только Vanilla JS и Tailwind CSS. Chart.js не требуется, так как нет сложных диаграмм.
 -->
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Женский календарь — Панель цикла</title>
+    <title>Женский календарь - Панель цикла</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f5f3f1;
-            --card-bg: #ffffff;
-            --text-color: #3d352e;
-            --text-muted: #8a7f77;
-            --accent-color: #e1cbc1;
-            --border-color: #e7e1dc;
+            --bg-color: #1a1e27;
+            --card-bg: #28303d;
+            --text-color: #e8e8e8;
+            --text-muted: #8894a4;
+            --accent-color: #d4af37;
+            --border-color: #444c59;
         }
 
         body {
@@ -45,21 +44,29 @@
         .themed-text { color: var(--text-color); }
         .themed-text-muted { color: var(--text-muted); }
         
-        /* THEMES */
-        body.theme-menstruation { --bg-color: #4a5568; --card-bg: #2d3748; --text-color: #e2e8f0; --text-muted: #a0aec0; --accent-color: #718096; --border-color: #4a5568; }
-        body.theme-follicular { --bg-color: #e6fffa; --card-bg: #ffffff; --text-color: #234e52; --text-muted: #4a5568; --accent-color: #4fd1c5; --border-color: #bee3f8; }
-        body.theme-ovulation { --bg-color: #fff5f5; --card-bg: #ffffff; --text-color: #9b2c2c; --text-muted: #c53030; --accent-color: #fc8181; --border-color: #fed7d7; }
-        body.theme-luteal { --bg-color: #faf5ff; --card-bg: #ffffff; --text-color: #6b46c1; --text-muted: #805ad5; --accent-color: #b794f4; --border-color: #e9d8fd; }
-        body.theme-pms { --bg-color: #f7fafc; --card-bg: #ffffff; --text-color: #4a5568; --text-muted: #718096; --accent-color: #a0aec0; --border-color: #e2e8f0; }
+        /* Темы, зависящие от фазы цикла */
+        /* Менструация: глубокий темно-синий */
+        body.theme-menstruation { --bg-color: #0b1a2d; --card-bg: #142841; --text-color: #e8f0ff; --text-muted: #9abedb; --accent-color: #d4af37; --border-color: #213a52; }
+        .day-menstruation { background-color: #1a1e27; color: white; }
+
+        /* Фолликулярная: изумрудный */
+        body.theme-follicular { --bg-color: #0d4a30; --card-bg: #115c3d; --text-color: #e0fff2; --text-muted: #8cd8b8; --accent-color: #d4af37; --border-color: #156d4a; }
+        .day-follicular { background-color: #008060; color: white; }
+
+        /* Овуляция: красный бархат */
+        body.theme-ovulation { --bg-color: #5c142c; --card-bg: #751a37; --text-color: #fff0f5; --text-muted: #e6b8c8; --accent-color: #d4af37; --border-color: #8c2044; }
+        .day-ovulation { background-color: #9f1d35; color: white; }
+
+        /* Лютеиновая: нежный солнечный */
+        body.theme-luteal { --bg-color: #e5b95a; --card-bg: #f5cf82; --text-color: #3b2c14; --text-muted: #8c7144; --accent-color: #d4af37; --border-color: #c99e4b; }
+        .day-luteal { background-color: #d4af37; color: white; }
+        
+        /* ПМС: сиреневый */
+        body.theme-pms { --bg-color: #7d5985; --card-bg: #9971a1; --text-color: #f7e8ff; --text-muted: #d0b8d8; --accent-color: #d4af37; --border-color: #a881af; }
+        .day-pms { background-color: #c8a2c8; color: white; }
 
         .day-cell { transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .day-cell:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-
-        .day-menstruation { background-color: #718096; color: white; }
-        .day-follicular { background-color: #81e6d9; color: #234e52; }
-        .day-ovulation { background-color: #fc8181; color: white; }
-        .day-luteal { background-color: #b794f4; color: white; }
-        .day-pms { background-color: #a0aec0; color: white; }
     </style>
 </head>
 <body class="p-4 sm:p-6 lg:p-8">
@@ -72,9 +79,9 @@
 
         <main class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-            <!-- Left Column -->
+            <!-- Левая колонка -->
             <aside class="lg:col-span-1 xl:col-span-1 flex flex-col gap-6">
-                <!-- Today's Summary -->
+                <!-- Сводка на сегодня -->
                 <section id="today-summary-card" class="card border rounded-2xl p-6">
                     <h2 class="text-sm font-semibold uppercase tracking-wider themed-text-muted">Сегодня</h2>
                     <p id="today-date" class="text-xl font-bold themed-text"></p>
@@ -84,14 +91,14 @@
                     </div>
                 </section>
                 
-                <!-- Cycle Visualization -->
+                <!-- Визуализация цикла -->
                 <section class="card border rounded-2xl p-6">
-                     <h2 class="text-sm font-semibold uppercase tracking-wider themed-text-muted mb-4">Ваш цикл</h2>
-                     <div id="cycle-timeline" class="w-full flex rounded-full h-3 overflow-hidden"></div>
-                     <div id="cycle-legend" class="text-xs mt-3 grid grid-cols-2 gap-x-4 gap-y-1"></div>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider themed-text-muted mb-4">Ваш цикл</h2>
+                    <div id="cycle-timeline" class="w-full flex rounded-full h-3 overflow-hidden"></div>
+                    <div id="cycle-legend" class="text-xs mt-3 grid grid-cols-2 gap-x-4 gap-y-1"></div>
                 </section>
 
-                <!-- Settings -->
+                <!-- Настройки -->
                 <section class="card border rounded-2xl p-6">
                     <h2 class="text-lg font-bold themed-text mb-4">Настройки цикла</h2>
                     <div class="space-y-4">
@@ -108,15 +115,15 @@
                             <input id="periodLength" type="number" min="1" max="10" value="5" class="mt-1 block w-full bg-transparent border rounded-md p-2 themed-text border-gray-600/20">
                         </div>
                     </div>
-                    <button id="saveSettingsBtn" class="mt-6 w-full py-2 px-4 rounded-md bg-zinc-700 text-white font-semibold hover:bg-zinc-800 transition">
-                        Сохранить
+                    <button id="saveSettingsBtn" class="mt-6 w-full py-2 px-4 rounded-md bg-black text-white font-semibold hover:bg-zinc-800 transition">
+                        <span class="text-gold-300">Сохранить</span>
                     </button>
                 </section>
             </aside>
 
-            <!-- Right Column -->
+            <!-- Правая колонка -->
             <div class="lg:col-span-2 xl:col-span-3 flex flex-col gap-6">
-                <!-- Calendar -->
+                <!-- Календарь -->
                 <section class="card border rounded-2xl p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h2 id="monthTitle" class="text-xl font-bold themed-text"></h2>
@@ -132,13 +139,13 @@
                     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center"></div>
                 </section>
                 
-                <!-- Phase Details -->
+                <!-- Детали фазы -->
                 <section id="info-panel" class="card border rounded-2xl p-6">
-                     <div id="info-content">
+                    <div id="info-content">
                         <h2 class="text-xl font-bold themed-text" id="selected-date-title">Выберите день в календаре</h2>
                         <p class="themed-text-muted" id="selected-phase-name">Здесь появится информация о фазе цикла.</p>
                         <div id="recommendations" class="mt-4 space-y-4"></div>
-                     </div>
+                    </div>
                 </section>
             </div>
         </main>
@@ -146,14 +153,15 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Константа для неизменяемой длительности ПМС, так как пользовательский ввод был удален
+    // Длительность ПМС, фиксированная константа.
     const PMS_LENGTH = 6;
     
+    // Объект, описывающий все фазы цикла с их данными
     const PHASES = {
         menstruation: {
             name: 'Менструация',
             theme: 'theme-menstruation',
-            color: '#718096',
+            color: '#1a1e27',
             data: {
                 "🌀 Гормоны": "Уровень эстрогена и прогестерона низкий.",
                 "❤️ Самочувствие": "Усталость, интроверсия, потребность в уединении. Повышенная интуиция.",
@@ -166,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         follicular: {
             name: 'Фолликулярная',
             theme: 'theme-follicular',
-            color: '#81e6d9',
+            color: '#008060',
             data: {
                 "🌀 Гормоны": "Постепенный рост эстрогена.",
                 "❤️ Самочувствие": "Прилив энергии, лёгкость, ясность ума, уверенность, социальная активность.",
@@ -179,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ovulation: {
             name: 'Овуляция',
             theme: 'theme-ovulation',
-            color: '#fc8181',
+            color: '#9f1d35',
             data: {
                 "🌀 Гормоны": "Пик лютеинизирующего гормона (ЛГ) и эстрогена.",
                 "❤️ Самочувствие": "Максимум энергии, высокая сексуальность, магнетизм, женственность.",
@@ -192,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         luteal: {
             name: 'Лютеиновая',
             theme: 'theme-luteal',
-            color: '#b794f4',
+            color: '#d4af37',
             data: {
                 "🌀 Гормоны": "Высокий уровень прогестерона.",
                 "❤️ Самочувствие": "Стабильность, затем возможна эмоциональность, интуиция, тревожность.",
@@ -205,10 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
         pms: {
             name: 'ПМС',
             theme: 'theme-pms',
-            color: '#a0aec0',
+            color: '#c8a2c8',
             data: {
-                "🌀 Гормоны": "Снижение эстрогена и прогестерона.",
-                "❤️ Самочувствие": "Сонливость, раздражительность, грусть, ностальгия.",
+                "🌀 Гормоны": "Сонливость, раздражительность, грусть, ностальгия.",
                 "📋 Задачи": "Минимум дел, сбор энергии, подготовка к менструации.",
                 "✨ Ритуалы": "Укутаться в плед, тёплый напиток, очищение пространства.",
                 "🏃‍♀️ Движение": "Лёжа-йога, дыхательные практики для успокоения.",
@@ -218,17 +225,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const STORAGE_KEY = 'femaleCycleDashboardSettings';
+    // Инициализация отображаемой даты
     let viewDate = new Date();
     viewDate.setDate(1);
 
+    // Настройки по умолчанию
     const defaultSettings = {
         lastPeriodStart: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString().slice(0, 10),
         cycleLength: 28,
         periodLength: 5
     };
 
+    // Загрузка настроек из localStorage или использование настроек по умолчанию
     let settings = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultSettings;
 
+    // Функция сохранения настроек
     function saveSettings() {
         const startDateEl = document.getElementById('startDate');
         const cycleLengthEl = document.getElementById('cycleLength');
@@ -242,12 +253,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAll();
     }
 
+    // Расчет разницы в днях между двумя датами
     function daysBetween(date1, date2) {
         const d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
         const d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
         return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
     }
 
+    // Получение дня цикла для конкретной даты
     function getCycleDayForDate(date) {
         const start = new Date(settings.lastPeriodStart);
         const diff = daysBetween(start, date);
@@ -255,17 +268,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return (diff % settings.cycleLength) + 1;
     }
 
+    // Определение фазы цикла по дню цикла
     function getPhaseByCycleDay(day) {
         const { periodLength, cycleLength } = settings;
         const ovulationDay = cycleLength - 14;
 
         if (day >= 1 && day <= periodLength) return 'menstruation';
         if (day > cycleLength - PMS_LENGTH) return 'pms';
-        if (day === ovulationDay || day === ovulationDay - 1 || day === ovulationDay + 1) return 'ovulation';
+        if (day >= ovulationDay - 1 && day <= ovulationDay + 1) return 'ovulation';
         if (day > periodLength && day < ovulationDay - 1) return 'follicular';
         return 'luteal';
     }
 
+    // Рендеринг календаря
     function renderCalendar() {
         const calendarGrid = document.getElementById('calendarGrid');
         calendarGrid.innerHTML = '';
@@ -304,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayEl.classList.add(`day-${phase}`);
                 dayEl.onclick = () => showDayInfo(date);
             } else {
-                 dayEl.classList.add('themed-text-muted', 'opacity-50');
+                dayEl.classList.add('themed-text-muted', 'opacity-50');
             }
             
             const today = new Date();
@@ -316,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Рендеринг временной шкалы цикла
     function renderCycleTimeline() {
         const timeline = document.getElementById('cycle-timeline');
         const legend = document.getElementById('cycle-legend');
@@ -359,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Отображение информации о выбранном дне
     function showDayInfo(date) {
         const cycleDay = getCycleDayForDate(date);
         const titleEl = document.getElementById('selected-date-title');
@@ -390,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(phaseKey);
     }
     
+    // Обновление сводки на сегодня
     function updateTodaySummary() {
         const today = new Date();
         document.getElementById('today-date').textContent = today.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -408,6 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Применение темы
     function applyTheme(phaseKey) {
         document.body.className = 'p-4 sm:p-6 lg:p-8';
         if (phaseKey && PHASES[phaseKey]) {
@@ -415,19 +434,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Заполнение формы настроек
     function populateSettingsForm() {
         document.getElementById('startDate').value = settings.lastPeriodStart;
         document.getElementById('cycleLength').value = settings.cycleLength;
         document.getElementById('periodLength').value = settings.periodLength;
     }
 
+    // Рендеринг всех элементов
     function renderAll() {
         updateTodaySummary();
         renderCalendar();
         renderCycleTimeline();
     }
     
-    // Event Listeners
+    // Добавление слушателей событий
     document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
 
     document.getElementById('prevMonth').onclick = () => {
@@ -440,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     };
 
-    // Initial Load
+    // Начальная загрузка
     populateSettingsForm();
     renderAll();
     showDayInfo(new Date());
